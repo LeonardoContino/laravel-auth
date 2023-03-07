@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\Homecontroller as GuestHomeController;
 use App\Http\Controllers\Admin\Homecontroller as AdminHomeController;
+use App\Http\Controllers\Admin\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,15 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(
 
  Route::get('/',[AdminHomeController::class, 'index'])->name('home');
 
+ //rotte project
+
+ Route::resource('/projects', ProjectController::class);
+ 
+
+
 });
 
-Route::middleware('auth')->name('profile.')-prefix('/profile')->group(function () {
+Route::middleware('auth')->name('profile.')->prefix('/profile')->group(function () {
     Route::get('/', [ProfileController::class, 'edit'])->name('edit');
     Route::patch('/', [ProfileController::class, 'update'])->name('update');
     Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
