@@ -17,6 +17,7 @@ return new class extends Migration
             $table->dateTime('date', $precision = 0);
             $table->text('content');
             $table->string('image')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
