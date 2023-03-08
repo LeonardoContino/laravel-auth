@@ -6,6 +6,8 @@
 <header>
     <h1 class="my-5">My Projects</h1>
 </header>
+
+@include('includes.alert')
 <table class="table table-hover">
     <thead>
         <tr>
@@ -26,7 +28,16 @@
             <td>{{$project->date}}</td>
             <td>{{$project->updated_at}}</td>
             <td>
-                <a href="{{route('admin.projects.show', $project->id)}}"><i class="fa-solid fa-eye"></i></a>
+                <div class="d-flex align-items-center justify-content-end">
+                    <a href="{{route('admin.projects.show', $project->id)}}"><i class="fa-solid fa-eye"></i></a>
+
+                <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-small"><i class="fa-regular fa-trash-can"></i></button>
+                </form>
+                </div>
+                
             </td>
           </tr>
         @empty
