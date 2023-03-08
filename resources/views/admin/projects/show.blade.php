@@ -12,7 +12,7 @@
     
     
     <a href="{{route('admin.projects.index')}}" class="btn btn-secondary">Torna ai Progetti</a>
-    <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST" class="delete-form">
+    <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST" class="delete-form" dataEntity="progetto">
         @csrf
         @method('DELETE')
         <button class="btn btn-small btn-danger ">Elimina</button>
