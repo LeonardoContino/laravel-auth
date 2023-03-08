@@ -4,10 +4,21 @@
 
 @section('content')
 
-<h1 class="my-5">
-    {{$project->title}}
+<div class="d-flex justify-content-between align-items-center">
+    <h1 class="my-5">
+        {{$project->title}}
+    
+    </h1>
+    
+    
+    <a href="{{route('admin.projects.index')}}" class="btn btn-secondary">Torna ai Progetti</a>
+    <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST" class="delete-form">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-small btn-danger ">Elimina</button>
+    </form>
+</div>
 
-</h1>
 
 <div class="clearfix">
     @if($project->image)
@@ -20,5 +31,5 @@
     <h5>Data: {{$project->date}}</h5>
 
 </div>
-    
+
 @endsection
