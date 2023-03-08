@@ -12,6 +12,8 @@
     
     
     <a href="{{route('admin.projects.index')}}" class="btn btn-secondary">Torna ai Progetti</a>
+    <a href="{{route('admin.projects.edit', $project->id)}}" class="btn btn-primary">Modifica progetto</a>
+
     <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST" class="delete-form" dataEntity="progetto">
         @csrf
         @method('DELETE')

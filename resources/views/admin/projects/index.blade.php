@@ -5,6 +5,7 @@
 @section('content')
 <header>
     <h1 class="my-5">My Projects</h1>
+    <a " href="{{route('admin.projects.create')}}"><i class="fa-solid  fa-plus fs-2 mb-3"></i></a>
 </header>
 
 @include('includes.alert')
@@ -28,8 +29,9 @@
             <td>{{$project->date}}</td>
             <td>{{$project->updated_at}}</td>
             <td>
-                <div class="d-flex align-items-center justify-content-end">
-                    <a href="{{route('admin.projects.show', $project->id)}}"><i class="fa-solid fa-eye"></i></a>
+                <div class="d-flex align-items-center justify-content-end gap-2">
+                    <a href="{{route('admin.projects.show', $project->id)}}"><i class="fa-solid fa-eye me-2"></i></a>
+                    <a href="{{route('admin.projects.edit', $project->id)}}"><i class="fa-solid fa-pencil"></i></a>
 
                 <form action="{{route('admin.projects.destroy', $project->id)}}" method="POST" class="delete-form" dataEntity="progetto">
                     @csrf
