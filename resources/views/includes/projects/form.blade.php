@@ -19,7 +19,7 @@
         placeholder="Nome titolo" name="title" required value="{{ old('title', $project->title) }}">
       @error('title')
         <div class="invalid-feedback">
-          {{ $error }}
+          {{ $message }}
         </div>
       @else
         <div class="form-text">Es.: Javascript projects</div>
