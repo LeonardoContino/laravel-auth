@@ -17,7 +17,13 @@
       <label for="short_name" class="form-label">Nome titolo</label>
       <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
         placeholder="Nome titolo" name="title" required value="{{ old('title', $project->title) }}">
-        
+      @error('title')
+        <div class="invalid-feedback">
+          {{ $error }}
+        </div>
+      @else
+        <div class="form-text">Es.: Javascript projects</div>
+      @enderror
     </div>
   </div>
   <div class="col-6">
