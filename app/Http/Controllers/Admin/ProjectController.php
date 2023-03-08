@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -32,7 +33,19 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'title' => 'required|string|unique:projects',
+            'content' => 'required|string',
+            'image' => 'nullable|url'
+        ],[
+                'title.required' => 'il titolo è obbligatorio',
+                'title.unique' => "esiste già un progetto $request->title",
+                'title.min' => 'il titolo deve avere almeno 5 caratteri',
+                'title.max' => 'il titolo deve avere max 20 caratteri',
+                'content.required' => 'il progetto deve avere un contenuto',
+                'image.url' => 'link non valido',
+
+        ]);
         $data = $request->all();
 
         $project = new Project();
@@ -68,6 +81,19 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $request->validate([
+            'title' => ['required','string',Rule::unique('projects')->ignore($project->id)],
+            'content' => 'required|string',
+            'image' => 'nullable|url',],
+            [
+                'title.required' => 'il titolo è obbligatorio',
+                'title.unique' => "esiste già un progetto $request->title",
+                'title.min' => 'il titolo deve avere almeno 5 caratteri',
+                'title.max' => 'il titolo deve avere max 20 caratteri',
+                'content.required' => 'il progetto deve avere un contenuto',
+                'image.url' => 'link non valido',
+
+            ]);
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
         $project->update($data);

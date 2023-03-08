@@ -26,6 +26,9 @@
     <div id="app">
 @include('includes.header')
         <main class="container">
+            @include('includes.alert')
+            @include('includes.alerts.error-alert')
+
             @yield('content')
         </main>
     </div>
