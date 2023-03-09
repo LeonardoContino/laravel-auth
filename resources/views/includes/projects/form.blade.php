@@ -46,6 +46,9 @@
       @enderror
     </div>
   </div>
+  <div class="col-1">
+    <img class="img-fluid" id="img-preview" src="{{$project->image ? asset('storage/'. $project->image) :'https://marcolanci.it/utils/placeholder.jpg'}}" alt="">
+  </div>
  
   
   </div>
@@ -73,5 +76,20 @@
 
   })
 
+</script>
+
+<script>
+const placeholder = 'https://marcolanci.it/utils/placeholder.jpg';
+const imageInput = document.getElementById('image');
+const imagePreview = document.getElementById('img-preview');
+imageInput.addEventListener('change', ()=>{
+  if(imageInput.files && imageInput.files[0]){
+    let reader = new FileReader();
+    reader.readAsDataUrl(imageInput.files[0]);
+    reader.onload = e => {
+      imagePreview.src = e.target.result;
+    }
+  } else imagePreview.setAttribute('src',  placeholder);
+})
 </script>
 @endsection
