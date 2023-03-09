@@ -8,7 +8,6 @@
     <a " href="{{route('admin.projects.create')}}"><i class="fa-solid  fa-plus fs-2 mb-3"></i></a>
 </header>
 
-@include('includes.alerts.alert')
 <table class="table table-hover">
     <thead>
         <tr>

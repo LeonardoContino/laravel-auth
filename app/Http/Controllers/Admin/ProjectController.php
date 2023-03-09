@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
@@ -36,22 +38,26 @@ class ProjectController extends Controller
         $request->validate([
             'title' => 'required|string|unique:projects',
             'content' => 'required|string',
-            'image' => 'nullable|url'
+            'image' => 'nullable|image'
         ],[
                 'title.required' => 'il titolo è obbligatorio',
                 'title.unique' => "esiste già un progetto $request->title",
                 'title.min' => 'il titolo deve avere almeno 5 caratteri',
                 'title.max' => 'il titolo deve avere max 20 caratteri',
                 'content.required' => 'il progetto deve avere un contenuto',
-                'image.url' => 'link non valido',
+                'image.image' => 'immagine non valida',
 
         ]);
         $data = $request->all();
 
         $project = new Project();
 
+        if(Arr::exists($data,'image')){
+           $data['image'] = Storage::put('projects', $data['image']);
+        }
         
         $project->fill($data);
+        
         $project->slug = Str::slug($project->title, '-');
         
         $project->save();
@@ -84,19 +90,25 @@ class ProjectController extends Controller
         $request->validate([
             'title' => ['required','string',Rule::unique('projects')->ignore($project->id)],
             'content' => 'required|string',
-            'image' => 'nullable|url',],
+            'image' => 'nullable|image'],
             [
                 'title.required' => 'il titolo è obbligatorio',
                 'title.unique' => "esiste già un progetto $request->title",
                 'title.min' => 'il titolo deve avere almeno 5 caratteri',
                 'title.max' => 'il titolo deve avere max 20 caratteri',
                 'content.required' => 'il progetto deve avere un contenuto',
-                'image.url' => 'link non valido',
+                'image.image' => 'immagine non valida',
 
             ]);
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
+        if(Arr::exists($data,'image')){
+            if($project->image) Storage::delete($project->image);
+            $data['image'] = Storage::put('projects', $data['image']);
+         }
         $project->update($data);
+
+        return to_route('admin.projects.show', $project->id)->with('type', 'success')->with('msg', 'Progetto modificato');
     }
 
     /**
@@ -104,6 +116,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+
+        if($project->image) Storage::delete($project->image);
         $project->delete();
 
         return to_route('admin.projects.index')->with('msg', "Il progetto '$project->title' è stato eliminato")

@@ -24,13 +24,13 @@
 
 <div class="clearfix">
     @if($project->image)
-    <img class="float-start me-3" src="{{$project->image}}" alt="{{$project->title}}">
+    <img class="float-start img-fluid me-3" src="{{ asset('storage/' . $project->image)}}" alt="{{$project->title}}">
     @endif
     <p>{{$project->content}}</p>
     
 </div>
 <div class="mt-3">
-    <h5>Data: {{$project->date}}</h5>
+    <h5>Data: {{$project->updated_at}}</h5>
 
 </div>
 

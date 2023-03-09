@@ -2,10 +2,10 @@
 
 {{-- Form --}}
 @if ($project->exists)
-  <form action="{{ route('admin.projects.update', $project->id) }}" method="POST" novalidate>
+  <form action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data" novalidate>
     @method('PUT')
   @else
-    <form action="{{ route('admin.projects.store') }}" method="POST" novalidate>
+    <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data" novalidate>
 @endif
 
 
@@ -28,9 +28,15 @@
   </div>
   <div class="col-6">
     <div class="mb-3">
-      <label for="image" class="form-label">url</label>
-      <input type="url" class="form-control @error('image') is-invalid @enderror" id="image"
-        placeholder="url" name="image" required value="{{ old('image', $project->image) }}">
+      <label for="slug" class="form-label">slug</label>
+      <input type="text" class="form-control" id="slug" value="{{Str::slug(old('title', $project->title))}}">
+    </div>
+  </div>
+  <div class="col-11">
+    <div class="mb-3">
+      <label for="image" class="form-label">Immagine</label>
+      <input type="file" class="form-control @error('image') is-invalid @enderror" id="image"
+        placeholder="image" name="image" required value="{{ old('image', $project->image) }}">
       @error('image')
         <div class="invalid-feedback">
           {{ $msg }}
@@ -40,12 +46,7 @@
       @enderror
     </div>
   </div>
-  <div class="col-6">
-    <div class="mb-3">
-      <label for="slug" class="form-label">slug</label>
-      <input type="text" class="form-control" id="slug" value="{{Str::slug(old('title', $project->title))}}">
-    </div>
-  </div>
+ 
   
   </div>
   <div class="col-12">
