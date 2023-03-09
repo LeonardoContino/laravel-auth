@@ -16,7 +16,7 @@
     <div class="mb-3">
       <label for="short_name" class="form-label">Nome titolo</label>
       <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
-        placeholder="Nome titolo" name="title" required value="{{ old('title', $project->title) }}">
+        placeholder="Nome titolo" name="title" id="title" required value="{{ old('title', $project->title) }}">
       @error('title')
         <div class="invalid-feedback">
           {{ $message }}
@@ -40,6 +40,12 @@
       @enderror
     </div>
   </div>
+  <div class="col-6">
+    <div class="mb-3">
+      <label for="slug" class="form-label">slug</label>
+      <input type="text" class="form-control" id="slug" value="{{Str::slug(old('title', $project->title))}}">
+    </div>
+  </div>
   
   </div>
   <div class="col-12">
@@ -55,3 +61,16 @@
   <button type="submit" class="btn btn-success">Salva</button>
 </div>
 </form>
+
+@section('scripts')
+<script>
+  const slugInput = document.getElementById('slug');
+  const titleInput = document.getElementById('title');
+
+  titleInput.addEventListener('blur', () =>{
+    slugInput.value = titleInput.value.toLowerCase().split(' ').join('-');
+
+  })
+
+</script>
+@endsection
